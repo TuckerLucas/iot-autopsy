@@ -1,0 +1,7 @@
+# Device Identification
+
+- Manufacturer: TP-Link
+- Model: Archer C7
+- Hardware version: v2.0
+- FCC ID: TE7C7V2
+- S/N: 2149198002806
