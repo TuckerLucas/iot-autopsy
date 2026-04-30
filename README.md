@@ -17,7 +17,7 @@ This project focuses on **real hardware** and is structured as a collection of *
 
 I aim to follow a methodology similar to professional embedded security assessments. Therefore, each device is approached in much the same manner, guided by the following methodology:
 
-1. **Reconnaissance**
+1. **Open-Source Intelligence (OSINT)**
    - Identify device model, hardware revision, FCC ID, and chipset
    - Collect and analyse vendor documentation and relevant datasheets
 
