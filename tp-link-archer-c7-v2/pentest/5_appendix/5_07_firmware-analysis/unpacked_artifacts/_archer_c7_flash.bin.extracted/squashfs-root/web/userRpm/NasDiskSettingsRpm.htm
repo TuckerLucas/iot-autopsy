@@ -1,0 +1,120 @@
+
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript type="text/javascript">
+var locpath = location.pathname;
+
+function OnRemoveMedia(target)
+{
+	if(false == confirm(js_remove_media="This operation will disable FTP Server, Media Server and etc.. Are you sure to continue?"))
+	{
+		return false;
+	}
+	location.href = locpath + "?safelyRemove=" + target;
+	return true;
+}
+
+function OnRescan()
+{
+	location.href = locpath + "?rescan=rescan";
+	return true;
+}
+function OnEnableShare(tmpId, storageBase, volBase)
+{
+	var bEnable = document.getElementById(tmpId).checked;
+	var	diskName = diskInf[storageBase];
+	var	volName = volInf[volBase];
+	bEnable = bEnable ? 1 : 0;
+	location.href="NasDiskSettingsRpm.htm?volume_id="+ volName + "&share_status=" + bEnable + "&disk_name=" + diskName;
+}
+</SCRIPT>
+<style type="text/css">
+	TD{
+		white-space: normal;
+	}
+	p.cfg_line {
+		height: 27px;
+		line-height: 27px;
+		margin: 0px;
+	}
+	p.cfg_line .buttonL {
+		float: right;
+		margin-right: 20px;
+	}
+</style>
+</HEAD>
+<BODY onload = "setTagStr(document,'nas_disk_setting'); LoadHelp('NasDiskSettingsHelpRpm.htm')">
+<center>
+	<TABLE id="autoWidth" border="0">
+	<TBODY>
+		<TR>
+			<TD class="h1" id="t_arp_list">Disk Settings</TD>
+		</TR>
+		<TR>
+			<TD class="blue"></TD>
+		</TR>
+		<TR>
+			<TD class="emp">
+				<INPUT name="scan" type="button" class="buttonBig" value="Scan" onClick="OnRescan()">
+				&nbsp;&nbsp;
+				<SCRIPT type="text/javascript">
+				if (statusInf[0] == 1)
+				{
+					document.write('<span id="t_scanning">Scanning......<\/span>');
+				}
+				else if (statusInf[0] == 2)
+				{
+					document.write('<span>Found ' + statusInf[1] + ' Disks<\/span>');
+				}
+				</SCRIPT>
+			</TD>
+		</TR>
+		<TR>
+			<TD>
+				<div class="table-container">
+					<script type="text/javascript">
+					if (statusInf[2] > 0)
+					{
+						var diskRow = 4, volBase = 0, storageBase = 0, tmpId;
+						for (var i = 0; i < statusInf[1]; i++)
+						{
+							document.write('<p class="cfg_line tbl_tool">');
+							document.write('<input type="button" value="Safely Remove" class="buttonL" onclick="OnRemoveMedia(\'' + (i + 1) + '\')"/>');
+							document.write('<label class="label_title s">' + diskInf[storageBase] + ': </label></p>');
+							document.write('<table class="NORMAL"><thead><tr class="TABLE_HEAD">'
+								+ '<td class="TABLE_HEAD"><span id="t_id" class="ITEM_NAME">ID</span></td>'
+								+ '<td class="TABLE_HEAD"><span id="t_volumn" class="ITEM_NAME">Volume</span></td>'
+								+ '<td class="TABLE_HEAD"><span id="t_capacity" class="ITEM_NAME">Capacity</span></td>'
+								+ '<td class="TABLE_HEAD"><span id="t_free_space" class="ITEM_NAME">Free Space</span></td>'
+								+ '<td class="TABLE_HEAD"><span id="t_active" class="ITEM_NAME">Active</span></td></tr></thead><tbody>');
+							for (var j = 0; j < diskInf[storageBase + 1]; j++)
+							{
+								tmpId = "usb" + i + "Enable" + j;
+								document.write('<tr class="DESELECT"><td class="NORMAL"><span class="ITEM_DATA">' + (j + 1) + '</span></td>');
+								document.write('<td class="NORMAL"><span class="ITEM_DATA">' + volInf[volBase] + '</span></td>');
+								document.write('<td class="NORMAL"><span class="ITEM_DATA">' + volInf[volBase + 1] + '</span></td>');
+								document.write('<td class="NORMAL"><span class="ITEM_DATA">' + volInf[volBase + 2] + '</span></td>');
+								document.write('<td class="NORMAL"><input type="checkbox" id="' + tmpId + '" name="' + tmpId + '" onclick="OnEnableShare(\''+tmpId+'\',\''+storageBase+'\',\''+volBase+'\');" /></td>');
+								document.getElementById(tmpId).checked = volInf[volBase + 3];
+								volBase += diskRow;
+							}
+							document.write('<tr><td colspan="5">&nbsp;</td></tr>');
+							document.write('</tbody></table>');
+							storageBase += 2;
+						}
+					}
+					else
+					{
+						document.write('<tr class="NORMAL"><td class="NORMAL">Please Plug an external USB drive into this Router, wait for 10 seconds and then Scan.<\/td><\/tr>');
+					}
+					</script>
+				</div>
+			</TD>
+		</TR>
+		<TR>
+			<TD class="blue"></TD>
+		</TR>
+	</TBODY>
+	</TABLE>
+</center>
+</BODY>
+</html>

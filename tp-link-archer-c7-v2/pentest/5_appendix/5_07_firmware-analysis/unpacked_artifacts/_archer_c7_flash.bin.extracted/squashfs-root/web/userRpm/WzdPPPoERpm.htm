@@ -1,0 +1,194 @@
+
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT type="text/javascript"><!--
+function Click(){ window.event.returnValue=false;}
+document.oncontextmenu=Click;
+//--></SCRIPT>
+<SCRIPT type="text/javascript"><!--//
+function doSubmit()
+{
+	var element =document.forms[0].acc;
+	var confirm = document.forms[0].confirm;
+/* allow null user and/or null password */	
+/*	if(element.value.length==0)
+	{
+		alert(str_pages.ntw_wzd_pppoe.js_input_name);
+		element.focus();
+		element.select()
+		return false;
+	} */
+
+	element = document.forms[0].psw;
+/*	if(element.value.length==0)
+	{
+		alert(str_pages.ntw_wzd_pppoe.js_input_pwd);
+		element.focus();
+		element.select()
+		return false;
+	}
+	
+	if(confirm.value.length==0)
+	{
+		alert(str_pages.ntw_wzd_pppoe.js_confirm_psw);
+		confirm.focus();
+		confirm.select()
+		return false;
+	}	
+*/
+	if (confirm.value != element.value)
+	{
+		alert(js_confirm_different="The Password is different from the Confirm Password!");
+		return false;
+	}
+	
+	/* by huangwenzhong 21Dec10  */
+	if ( document.forms[0].SecType[2].checked == true)
+	{
+		if ( !is_ipaddr( document.forms[0].sta_ip.value ) )
+		{
+			var element = document.forms[0].sta_ip;
+			if ( element )
+			{
+				element.focus();
+				element.select();			
+			}
+			return false;
+		}
+		if ( !is_maskaddr( document.forms[0].sta_mask.value ) )
+		{
+			var element = document.forms[0].sta_mask;
+			if ( element )
+			{
+				element.focus();
+				element.select();
+			}
+			return false;
+		}
+	}
+	document.forms[0].confirm.value = '';
+	return true;
+}
+function doBack()
+{
+	document.forms[0].confirm.value = '';
+}
+/* by huangwenzhong 21Dec10  */
+function changeIpType()
+{
+	if(document.forms[0].SecType[2].checked==true) 
+	{
+		document.getElementById("sta_ip_row").style.display = "";
+		document.getElementById("sta_mask_row").style.display = "";
+	}
+    else
+    {
+		document.getElementById("sta_ip_row").style.display = "none";
+		document.getElementById("sta_mask_row").style.display = "none";
+    }
+}
+
+
+//--></SCRIPT>
+</HEAD>
+<BODY onLoad="changeIpType();setTagStr(document,'ntw_wzd_pppoe');LoadHelp('WzdPPPoEHelpRpm.htm'); resize(this);" onResize="resize(this);">
+<CENTER>
+  <FORM action=WzdPPPoERpm.htm method=get enctype=multipart/form-data>
+    <TABLE id=autoWidth border = 0>
+      <TBODY>
+        <TR>
+          <TD class=h1 colspan=2 id="t_title">Quick Setup - PPPoE</TD>
+        </TR>
+        <TR>
+          <TD class=blue colspan=2></TD>
+        </TR>
+        <TR>
+          <TD class=Item id="t_name">User Name:</TD>
+          <TD><INPUT type="text" class=text id=acc maxlength=255 size=25 name=acc></TD>
+        </TR>
+        <TR>
+          <TD class=Item id="t_pwd">Password: </TD>
+          <TD><INPUT class=text id=psw type=password maxlength=255 size=25 name=psw></TD>
+        </TR>
+        <TR>
+          <TD class=Item id="t_psw_confirm">Confirm Password: </TD>
+          <TD><INPUT class=text id=confirm type=password maxlength=255 size=25 name=confirm></TD>
+        </TR>
+		<TR>
+			<TD colspan=2></TD>
+		</TR>
+	
+		<TR>
+			<TD class=Item id="t_sec_conn">Secondary Connection:</TD>
+			<TD><INPUT name="SecType" type="radio" onClick="changeIpType()" value="0" checked>
+				<SPAN id = "t_sec_disable">Disabled</SPAN>&nbsp; &nbsp;
+				<INPUT name="SecType" type="radio" onClick="changeIpType()" value="1">
+				<SPAN id = "t_sec_dynamic">Dynamic IP</SPAN>&nbsp; &nbsp;
+				<INPUT name="SecType" type="radio" onClick="changeIpType()" value="2">
+				<SPAN id = "t_sec_static">Static IP</SPAN>&nbsp;&nbsp;&nbsp;
+				<SPAN id = "t_sec_descript">(For Dual Access/Russia PPPoE)</SPAN>
+			</TD>
+		</TR>
+		<TR id="sta_ip_row">
+			<TD class=Item id = "t_sec_ip_addr" name="t_sec_ip_addr">IP Address:</TD>
+			<TD><input name="sta_ip" id="sta_ip" type="text" class="text" value="" size="15" maxlength="15"></TD>
+		</TR>
+		
+		<TR id="sta_mask_row">
+			<TD class=Item id = "t_sub_mask" name="t_sub_mask">Subnet Mask:</TD>
+			<TD><input name="sta_mask" id="sta_mask" type="text" class="text" value="" size="15" maxlength="15"></TD>
+		</TR>
+		<SCRIPT type="text/javascript">
+		if(wzdIsWanCon[0] == 0) 
+		{
+			document.write('<TR>');
+			document.write('<TD>&nbsp;<\/TD>');
+			document.write('<TD colspan=2><span style="color:#A52A2A" id="t_wanTips">Internet port is unplugged!Please check your connection. <\/span><\/TD>');  
+			document.write('</\TR>');			
+		}
+		</SCRIPT>
+		
+        <TR>
+          <TD class=blue colspan=2></TD>
+        </TR>
+        <TR >
+          <TD class=mbtn colspan=2><INPUT name="Return" class=buttonBig id=PrevStep onClick="return doBack();" type=submit value="Back">
+            &nbsp;&nbsp;
+            <INPUT name="Next" class=buttonBig id=Submit onClick="return doSubmit();" type=submit value="Next">
+            <INPUT type=hidden name=ClientId></TD>
+        </TR>
+      </TBODY>
+    </TABLE>
+  </FORM>
+</CENTER>
+</BODY>
+<HEAD>
+<META http-equiv="pragma" content="no-cache">
+</HEAD>
+</HTML>
+<SCRIPT type="text/javascript"><!--//
+document.forms[0].acc.value=wzdPPPoEInf[2];
+document.forms[0].psw.value=wzdPPPoEInf[3];
+document.forms[0].confirm.value=wzdPPPoEInf[3];
+document.forms[0].ClientId.value=wzdPPPoEInf[0];
+
+if ( wzdPPPoEInf[4] == 1 )
+{
+	document.forms[0].SecType[1].checked = true;
+	document.getElementById("sta_ip_row").style.display = "none";
+	document.getElementById("sta_mask_row").style.display = "none";
+}
+else if ( wzdPPPoEInf[4] == 2 )
+{
+	document.forms[0].SecType[2].checked = true;
+	document.getElementById("sta_ip_row").style.display = "";
+	document.getElementById("sta_mask_row").style.display = "";
+}
+else
+{
+	document.forms[0].SecType[0].checked = true;
+	document.getElementById("sta_ip_row").style.display = "none";
+	document.getElementById("sta_mask_row").style.display = "none";
+}
+document.getElementById("sta_ip").value = wzdPPPoEInf[5];
+document.getElementById("sta_mask").value = wzdPPPoEInf[6];
+//--></SCRIPT>

@@ -1,0 +1,363 @@
+
+
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+
+<script language=javascript><!--//
+var selectID = -1;
+var i;
+var prefixPath;
+var mntPointLen;
+var currentPathLen;
+var PathPre = "/tmp/usbdisk";
+
+if(mntPointInfo[0] > 1)
+{	
+	for (i=0; i<mntPointInfo[0]; i++)
+	{
+		mntPointLen = mntPointInfo[4*i + 2].length;
+		// just /tmp/usbdisk
+		prefixPath = mntPointInfo[4*i + 2].substring(0,(mntPointLen-mntPointInfo[4*i + 4].length -1));
+	}
+}
+else if(1 == mntPointInfo[0])
+{
+	prefixPath = mntPointInfo[2];
+}
+
+function doEnterInto(folderIndex){
+	//alert("enter into "+foldersInfo[0]+"/"+foldersInfo[4*folderIndex+3+1]);
+	var fullpath=""
+	if(folderIndex > foldersInfo[1])
+	{
+		return false;
+	}
+	if(folderIndex == -1)
+	{
+		var fol=foldersInfo[0].split("/");		
+		var i;		
+		for(i=1;i<(fol.length-1);i++)
+		{		
+			fullpath +="/"+fol[i];
+		}		
+		location.href="NasFolderAdvRpmNew.htm?full_path="+fullpath;
+		return true;
+	}
+	else
+	{
+		fullpath += foldersInfo[0]+"/"+foldersInfo[4*folderIndex+8];
+		if(fullpath.length > 64)
+		{
+			alert(js_forbid_enter="can not enter into\n");			
+			return false;
+		}		
+		location.href="NasFolderAdvRpmNew.htm?full_path="+fullpath;
+		return true;
+	}	
+}
+function charCompareA(szname, en_limit, cn_limit)
+{
+	var c;
+	var ch = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+	if (szname.length > en_limit)
+	{
+		return false;
+	}
+	for (var i = 0; i < szname.length; i++)
+	{
+		c = szname.charAt(i);
+		if (ch.indexOf(c) == -1)
+		{
+			if(szname.length > cn_limit)
+			{				
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+function doSubmit()
+{
+	var i;
+	var reSpaceCheck = /^\s|\s$/;					// begin or end with whitespace
+	var reDotCheck = /^\.|\.$/;						// begin or end with dot
+	var reInvalidCharacter = /[\/\:\*\?"<>\|\\]/;	// characters disallowed using for folder name on Windows
+
+	//didn't specify share folder
+	if (selectID == -1 && foldersInfo[4] == 1000)
+	{
+		alert(js_unspecify_folder="must select a folder to share or share entire partition");
+		return false;
+	}	
+	
+	//display name
+	if(document.forms[0].displayName.value.length == 0){
+		alert(js_displayname_none="must specify a displayname");
+		return false;
+	}
+	
+	//display name format error
+	if(reSpaceCheck.test(document.forms[0].displayName.value))
+	{
+		alert("share name can't begin or end with whitespace");
+		return false;
+	}
+	if (reDotCheck.test(document.forms[0].displayName.value))
+	{
+		alert("share name can't begin or end with dot");
+		return false;
+	}
+	if (reInvalidCharacter.test(document.forms[0].displayName.value))
+	{
+		alert("share name can't contain any of the following characters:\n\\/:*?\"<>|");
+		return false;
+	}
+	
+	//get radio num
+	if (foldersInfo[1] == 1)
+	{
+		if(document.forms[0].shareFolderName.checked)
+		{
+			selectID = 0;
+		}
+	}
+	else
+	{
+		for(i=0;i<foldersInfo[1];i++)
+		{
+			if(document.forms[0].shareFolderName[i].checked)
+			{
+				selectID = i;
+			}
+		}
+	}
+}
+
+function doBack()
+{
+	location.href="NasFolderSharingRpm.htm";
+}
+
+function doHelp()
+{
+	location.href="../help/NasFoldersCfgHelpRpm.htm";
+}
+
+function doSwitch(index)
+{
+	switch(index)
+	{
+	case '1':
+		document.getElementById("guestAccessAllow").checked = (document.getElementById("guestAccessAllow").checked ? false : true);			
+		break;
+	case '2':
+		document.getElementById("enAuth").checked = (document.getElementById("enAuth").checked ? false : true);	
+		break;
+	case '3':
+		document.getElementById("writeAccessPwd").checked = (document.getElementById("writeAccessPwd").checked ? false : true);	
+		break;
+	case '4':
+		document.getElementById("mediaShare").checked = (document.getElementById("mediaShare").checked ? false : true);	
+		break;
+	default:
+		break;
+	}
+}
+
+/*add by HouXB 2011.01.12*/
+function onClickShareAllCheckbox()
+{
+	var i;
+	var folder_id;
+	var href_value;
+	
+	/*select folder*/
+	if (foldersInfo[1] == 1)
+	{
+		folder_id = "t_folder_"+0;
+		href_value = 'NasFolderAdvRpmNew.htm?full_path='+ foldersInfo[0] + '/' + foldersInfo[4*i+ 8];
+		document.getElementById(folder_id).setAttribute('href', href_value);
+		document.getElementById(folder_id).style.color = 'blue';
+		document.forms[0].shareFolderName.disabled=false;
+	}
+	else
+	{
+		for (i=0; i<foldersInfo[1]; i++)
+		{		
+			folder_id = "t_folder_"+i;
+			href_value = 'NasFolderAdvRpmNew.htm?full_path='+ foldersInfo[0] + '/' + foldersInfo[4*i+ 8];
+			document.getElementById(folder_id).setAttribute('href', href_value);
+			document.getElementById(folder_id).style.color = 'blue';
+			document.forms[0].shareFolderName[i].disabled=false;			
+		}
+	}
+}
+function doPage(pageIndex)
+{
+	var fullpath = "";
+	fullpath += foldersInfo[0];
+	if(fullpath.length > 64)
+	{
+		alert(js_forbid_enter="can not enter into\n");			
+		return false;
+	}		
+	location.href="NasFolderAdvRpmNew.htm?pageIndex="+pageIndex+"&full_path="+fullpath;
+}
+
+//--></script></head>
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY onLoad="setTagStr(document,'ntw_nas_folder_adv');LoadHelp('NasFolderAdvHelpRpm.htm');resize(this);" onResize="resize(this);">
+<CENTER><FORM action="NasFolderSharingRpm.htm" enctype="multipart/form-data" method="get">
+<TABLE id="autoWidth"><TBODY>
+<TR><TD class=h1 colspan=2 id = "t_nas_media_server_add_new_folder">Add or Modify Share Folder</TD></TR>
+
+<TR>
+	<TD>
+		<TABLE>
+        	
+			<TR>
+				<TD class="Item" id="t_display_name">Folder Path:</TD>
+				<TD id="folderPath">
+					<SCRIPT language="JavaScript">
+						//path = foldersInfo[0].substr(prefixPath.length);
+						path = foldersInfo[0].substr(PathPre.length);							
+						if(0 == path.length)
+						{
+							document.write("/");
+						}
+						else
+						{
+							document.write(path);
+						}
+					</SCRIPT>
+				</TD>
+			</TR>
+			<TR>
+				<TD class="Item" id="t_display_name">Share Name:</TD>
+				<TD class="emp" id="display_name">
+					<INPUT type="text" class="text" name="displayName" maxLength="15" value="" />
+				</TD>
+			</TR>
+			<TR>
+				<TD class="Item"><input type="checkbox" id="guestAccessAllow" name="guestAccessAllow" /></TD>
+				<TD><span onClick="doSwitch('1');">Allow Guest Network Access</span></TD>
+			</TR>
+			<TR>
+				<TD class="Item"><input type="checkbox" id="enAuth" name="enAuth" /></TD>
+				<TD><span onClick="doSwitch('2');">Enable Authentication</span></TD>
+			</TR>
+			<TR>
+				<TD class="Item"><input type="checkbox" id="writeAccessPwd" name="writeAccessPwd" /></TD>
+				<TD><span onClick="doSwitch('3');">Enable Write Access</span></TD>
+			</TR>
+			<TR>
+				<TD class="Item"><input type="checkbox" id="mediaShare" name="mediaShare" /></TD>
+				<TD><span onClick="doSwitch('4');">Enable Media Sharing</span></TD>
+			</TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR><TD class=blue colspan=2></TD></TR>
+<TR><TD>
+<TABLE>
+	<TR>
+		<TD class="Item"><b>Select</b></TD>
+		<TD><b>Folder</b></TD>
+	</TR>
+	<TR><TD><input name="upper" id="upper_id" type="button" style=" width:80px " class="buttonBig" value="up" onClick="return doEnterInto(-1);"> </TD></TR>		
+	<SCRIPT language="JavaScript">	
+		var i = 0;
+		for(i=0; i<foldersInfo[1]; i++){
+			document.write('<TR id = "folder_link">');
+			document.write('<TD class="Item"><INPUT name="shareFolderName" type="radio" value="'+ foldersInfo[0]+ '/' + foldersInfo[4*i+8] +'"><\/TD>');
+			document.write('<TD align=center>'
+				+ '<a href=\"NasFolderAdvRpmNew.htm?full_path='
+				+ foldersInfo[0] + '/' + foldersInfo[4*i+ 8]
+				+ '\"id="t_folder_'
+				+ i
+				+ '">'		
+				+ foldersInfo[4*i + 8]
+				+ '<\/a>'	
+				+ '<\/TD>');
+							
+			document.write('</TR>');		
+		}		
+	</SCRIPT>
+</TABLE>
+</TD></TR>	
+<TR><TD class=blue colspan=2></TD></TR>
+<TR>	
+	<TD class =" mbtn">
+		<input name="Save" type="submit" class="buttonBig" value="Save" onClick="return doSubmit();">
+		&nbsp;&nbsp;
+		<input name="Back" type="button" class="buttonBig" onClick="doBack();" value="Back">
+		&nbsp;
+		<SPAN id="t_page1">Current No.</SPAN>
+            <SELECT onChange="doPage(document.forms[0].selPage.value);" size="1" name="selPage">
+              <SCRIPT type="text/javascript">
+			  
+
+var maxpageNum = foldersInfo[5];
+var pIndex = 0;
+var pIndex1 = 1;
+do
+{
+	document.write('<option value=' + pIndex +'>'+ pIndex1 +"</option>");
+	pIndex1++;
+}while(++pIndex < maxpageNum);
+
+				</SCRIPT>
+            </SELECT>
+            &nbsp;
+			<SPAN id="t_page2">Page</SPAN>
+            <INPUT name="Page" type="hidden" value="1"></TD>
+	</TD>
+</TR>
+
+<TR><TD><INPUT type="hidden" name="subpage" value="2" ></TD></TR>
+<TR><TD><INPUT name="no_use_para_just_fix_ie_sub_bug" type="text" style="display:none"></TD></TR>
+</TBODY></TABLE>
+
+</FORM></CENTER></BODY><HEAD><META http-equiv="pragma" content="no-cache"></HEAD></HTML>
+
+<SCRIPT language="JavaScript">
+
+//document.forms[0].volumnName.value = diskInfo[0];
+document.getElementById("guestAccessAllow").checked = (foldersOtherInfo[0] == 0 ? false : true);
+document.getElementById("enAuth").checked = (foldersOtherInfo[1] == 0 ? false : true);	
+document.getElementById("writeAccessPwd").checked = (foldersOtherInfo[2] == 0 ? false : true);	
+document.getElementById("mediaShare").checked = (foldersOtherInfo[3] == 0 ? false : true);		
+
+
+if(foldersInfo[2] == 0)
+{
+	document.forms[0].upper.disabled = true;
+}
+document.forms[0].displayName.value = foldersInfo[3];
+if (foldersInfo[4] >= 0 && foldersInfo[4] < 10000)
+{
+	if (foldersInfo[1] == 1)
+	{
+		document.forms[0].shareFolderName.checked = true;
+		document.forms[0].shareFolderName.value = foldersInfo[0]+ '/' + foldersInfo[4*foldersInfo[4]+8];
+	}
+	else
+	{
+		document.forms[0].shareFolderName[foldersInfo[4]].checked = true;
+		document.forms[0].shareFolderName[foldersInfo[4]].value = foldersInfo[0]+ '/' + foldersInfo[4*foldersInfo[4]+8];
+	}
+}
+else
+{
+	if (foldersInfo[1] == 1)
+	{
+		document.forms[0].shareFolderName.checked = true;
+	}
+	else
+	{
+		document.forms[0].shareFolderName[0].checked = true;
+	}
+}
+document.forms[0].selPage.selectedIndex = foldersInfo[6];
+</SCRIPT>

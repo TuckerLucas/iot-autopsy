@@ -1,0 +1,55 @@
+<SCRIPT type="text/javascript">
+<!--//
+var WanSpeedModeStr = new Array(
+"Auto Negotiation",
+"100Mbps Full Duplex",
+"100Mbps Half Duplex",
+"10 Mbps Full Duplex",
+"10 Mbps Half Duplex",
+0,0 );
+
+function doSubmit(){
+var val;
+val=document.forms[0].speedmode.selectedIndex;
+}
+//-->
+</SCRIPT>
+</head>
+<BODY onload = "setTagStr(document,'ntw_wan_speed_mode_cfg');LoadHelp('WanSpeedModeHelpRpm.htm')">
+<FORM action="WanSpeedMode.htm" enctype="multipart/form-data" method="get" onSubmit="return doSubmit();">
+	<CENTER>
+		<TABLE border="0" cellspacing="0" cellpadding="0">
+			<TR><TD align="left" valign="middle" class="h1" id = "t_title">WAN Port Speed/Mode Setting</TD></TR>
+			<TR><TD class = "blue" colspan=4></TD></TR>
+      <TR>
+        <TD><TABLE border="0" cellspacing="0" cellpadding="0">
+            <TR>
+			  <tr><td class = "Item">Current Mode: </td><td><DIV ID="CurSpeedMode"></DIV></td></tr>
+			  <TD id = "t_current_mode" class = "Item">Speed/Mode: </TD>
+			  <TD>
+				<select name="speedmode" class="list" id="speedmode"  style="width:170px">
+				<option value="0" >Auto Negotiation</option>
+				<option value="1" >100Mbps Full Duplex</option>
+				<option value="2" >100Mbps Half Duplex</option>
+				<option value="3" >10 Mbps Full Duplex</option>
+				<option value="4" >10 Mbps Half Duplex</option>
+				</select>
+			  </TD>
+			</TR>
+        </TABLE></TD>
+      </TR>
+      <TR>
+        <TD class="blue"></TD>
+      </TR>
+	  <TR>
+        <TD class = "mbtn" colspan=2><INPUT name="Save" type="submit" class="buttonBig" value="Save"></TD>
+      </TR>
+    </TABLE>
+  </CENTER>
+</FORM>
+</BODY>
+</body><head><meta http-equiv="pragma" content="no-cache"></head></html>
+<script language="JavaScript">
+document.getElementById("CurSpeedMode").innerHTML = WanSpeedModeStr[WanSpeedModePara[0]];
+document.forms[0].speedmode.value = WanSpeedModePara[0];
+</script>
