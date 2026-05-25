@@ -1,54 +1,63 @@
 # Embedded Device Pentesting
 
-## Overview
+This project documents my hands-on experience pentesting embedded devices. The  goal is to develop and deepen my practical embedded security skills by understanding how embedded devices work from a security perspective.
 
-This repository documents my hands-on exploration and penetration testing of embedded devices, primarily consumer networking and IoT hardware.
+## Pentested devices
 
-The goal of this project is to:
+Each assessed device shall have its own self-contained directory, which contains all relevant documentation, supporting evidence, and findings. The table below details the assessed devices in this project.
 
-- Develop and deepen my embedded pentesting skills
-- Build a practical, well-documented learning archive
-- Understand real-world hardware
-- Practice structured methodology outside of CTF-style environments
+| Device | Description | Total Findings | Device Image |
+|:------:|:-----------:|:--------------:|:------------:|
+| [TP-Link Archer C7 v2](./tp-link-archer-c7-v2/pentest/) | Wireless Dual Band Gigabit Router | 38 | <img src="./tp-link-archer-c7-v2/img/target.png" width="200"> |
 
-## Scope
+## Penetration test report structure
 
-This project focuses on **real hardware** and is structured as a collection of **individual device assessments**. Each analyzed device has its own top-level directory with a self-contained penetration test, including documentation, notes, and supporting material such as photographs and captured output where applicable.
+Every penetration test performed on a device is documented and organised into the following parts:
 
-I aim to follow a methodology similar to professional embedded security assessments. Therefore, each device is approached in much the same manner, guided by the following methodology:
+|      # | Part name   | Content description |
+|:------:|:-----------:|---------------------|
+| 1      | **Executive summary** | High level overview of the conducted assessment. Summary table with identified findings. |
+| 2      | **Scope** | Target device details, features, and tested functionalities/interfaces. |
+| 3      | **Technical assessment** | Full technical documentation of all performed tests. Includes used commands, obtained logs, and observations. The guideline methodology followed in this part is detailed in the next section.|
+| 4      | **Findings** | Individual finding files detailing each identified vulnerability or observation, including severity rating, CVSS score, description, and remediation guidance. |
+| 5      | **Appendix** | Supporting artifacts referenced throughout the assessment, including firmware binaries, capture files, scripts, and raw logs. |
+
+## Technical assessment methodology
+
+Each technical assessment aims to follow a consistent methodology based on embedded penetration testing practices. The main phases applied to each device are:
 
 1. **Open-Source Intelligence (OSINT)**
-   - Identify device model, hardware revision, FCC ID, and chipset
-   - Collect and analyse vendor documentation and relevant datasheets
 
-2. **Hardware Analysis**
-   - Open the device and inspect the PCB
-   - Identify major components (SoC, RAM, flash, peripherals...)
+      - Collect and analyse vendor documentation
+      - Gather third-party knowledge regarding publicly disclosed vulnerabilities
 
-3. **Interface Discovery**
-   - Locate and validate debug and communication interfaces (UART, JTAG, SPI, I2C...)
+2. **Hardware inspection**
 
-4. **Boot and Runtime Analysis**
-   - Capture and analyze boot logs
-   - Observe bootloader behavior and security controls
-   - Assess access restrictions and debug protections
+      - Inspect the device's PCB
+      - Identify major hardware components and their vulnerabilities
 
-5. **Firmware Analysis**
-   - Extract firmware where possible
-   - Analyze filesystem layout, binaries, configurations, and scripts
-   - Identify services, credentials, and update mechanisms
+3. **Debug interface discovery**
 
-6. **Access and Exploitation**
-   - Attempt authenticated or unauthenticated access
-   - Identify misconfigurations, weaknesses, or vulnerabilities
-   - Explore realistic attack paths where applicable
+      - Locate and validate debug interfaces (such as JTAG and UART)
+      - Assess debug interface activity
 
-7. **Documentation**
-   - Record findings clearly and reproducibly
-   - Document dead ends, limitations, and lessons learned
+4. **Firmware extraction and analysis**
 
-It is likely that not every device will reach every stage. Failed attempts are documented intentionally and are considered an essential part of the learning process. The emphasis throughout is on trying to **understand how embedded devices actually work**.
+      - Extract firmware from relevant components
+      - Analyse filesystem layouts and reverse engineer binaries and other configurations
+
+5. **System hardening assessment**
+
+      - Obtain internal access to the device via shell
+      - Perform dynamic analysis of the running system
+
+6. **External interface analysis**
+
+      - Identify all user facing interfaces and protocols
+      - Perform directed attacks on each of these
+
+The phases above serve as a guide rather than a rigid checklist. Since each device is different, assessments will vary accordingly. Some phases may not be applicable, and device-specific testing may introduce phases not listed here. Furthermore, failed attempts and dead ends are documented intentionally as they are considered an essential part of the learning process.
 
 ## Disclaimer
 
-This project is **not affiliated with or endorsed by any device manufacturer**. All analysis is performed on devices I personally own and is conducted strictly for **educational and research purposes**.
+**All information in this project is strictly for educational purposes.** All conducted tests and attacks are performed on devices personally owned by the author. 
