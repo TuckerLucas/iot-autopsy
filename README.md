@@ -1,3 +1,9 @@
+---
+title: "Home"
+nav_exclude: true
+permalink: /
+---
+
 # Embedded Device Pentesting
 
 This project documents my hands-on experience pentesting embedded devices. The  goal is to develop and deepen my practical embedded security skills by understanding how embedded devices work from a security perspective.
@@ -8,7 +14,7 @@ Each assessed device shall have its own self-contained directory, which contains
 
 | Device | Description | Total Findings | Device Image |
 |:------:|:-----------:|:--------------:|:------------:|
-| [TP-Link Archer C7 v2](./tp-link-archer-c7-v2/pentest/) | Wireless Dual Band Gigabit Router | 39 | <img src="./tp-link-archer-c7-v2/img/target.png" width="200"> |
+| [TP-Link Archer C7](./tp-link-archer-c7-v2/tp-link-archer-c7-v2.md) | Wireless Dual Band Gigabit Router | 39 | <img src="./tp-link-archer-c7-v2/img/target.png" width="200"> |
 
 ## Penetration test report structure
 

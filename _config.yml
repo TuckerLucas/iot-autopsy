@@ -1,0 +1,7 @@
+title: "Embedded Device Pentesting"
+description: "A practical embedded device penetration testing portfolio."
+
+remote_theme: just-the-docs/just-the-docs
+
+plugins:
+  - jekyll-remote-theme
