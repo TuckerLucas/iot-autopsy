@@ -15,6 +15,7 @@ Each assessed device shall have its own self-contained directory, which contains
 | Device | Description | Total Findings | Device Image |
 |:------:|:-----------:|:--------------:|:------------:|
 | [TP-Link Archer C7](./tp-link-archer-c7-v2/tp-link-archer-c7-v2.md) | Wireless Dual Band Gigabit Router | 39 | <img src="./tp-link-archer-c7-v2/img/target.png" width="200"> |
+| [TP-Link Tapo C210](./tp-link-tapo-c210-v2/tp-link-tapo-c210-v2.md) | Home Security Wi-Fi Camera | In progress | <img src="./tp-link-tapo-c210-v2/img/target.jpg" width="200"> |
 
 ## Penetration test report structure
 
