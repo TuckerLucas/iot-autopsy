@@ -4,9 +4,9 @@ nav_exclude: true
 permalink: /
 ---
 
-# Embedded Device Pentesting
+# IoT autopsy
 
-This project documents my hands-on experience pentesting embedded devices. The  goal is to develop and deepen my practical embedded security skills by understanding how embedded devices work from a security perspective.
+This project documents my hands-on experience pentesting IoT devices. The  goal is to develop and deepen my practical embedded security skills by understanding how these embedded devices work from a security perspective.
 
 ## Pentested devices
 
