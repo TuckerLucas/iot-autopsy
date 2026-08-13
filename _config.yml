@@ -1,5 +1,6 @@
 title: "IoT autopsy"
 description: "A practical IoT device penetration testing portfolio."
+baseurl: /iot-autopsy
 
 remote_theme: just-the-docs/just-the-docs
 
