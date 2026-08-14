@@ -1,5 +1,5 @@
 title: "IoT autopsy"
-description: "A practical IoT device penetration testing portfolio."
+description: "Hardware analysis, firmware reverse engineering and interface exploitation of IoT devices"
 baseurl: /iot-autopsy
 
 remote_theme: just-the-docs/just-the-docs
